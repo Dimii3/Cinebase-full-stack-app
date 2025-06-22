@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 const port = 3001;
 
+app.use(express.json());
 app.use(cors());
 
 let movies = [
@@ -583,6 +584,36 @@ let movies = [
       "https://m.media-amazon.com/images/M/MV5BMjA5Njk3MjM4OV5BMl5BanBnXkFtZTcwMTc5MTE1MQ@@._V1_SX300.jpg",
   },
 ];
+
+let users = [];
+
+app.post("/api/users/register", (req, res) => {
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const existingUser = users.find((user) => user.email === email);
+  if (existingUser) {
+    return res
+      .status(409)
+      .json({ message: "User with this email already exists" });
+  }
+
+  const newUser = {
+    id: Date.now(),
+    username,
+    email,
+    password,
+  };
+
+  users.push(newUser);
+  console.log("New user registered:", newUser);
+  console.log("All users:", users);
+
+  res.status(201).json({ message: "User registered successfully" });
+});
 
 app.get("/api/movies/:id", (req, res) => {
   const movieId = parseInt(req.params.id, 10);

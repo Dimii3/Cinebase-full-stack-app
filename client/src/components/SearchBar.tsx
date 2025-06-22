@@ -23,7 +23,7 @@ export default function SearchBar() {
   return (
     <form onSubmit={(e) => e.preventDefault()} className="search-bar">
       <input
-        className="search-bar__input"
+        className="search-bar__input input"
         type="text"
         placeholder="Search Movie..."
         value={value}

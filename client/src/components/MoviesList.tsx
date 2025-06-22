@@ -94,7 +94,7 @@ export default function MoviesList() {
           </ul>
           {movies.length < total && (
             <button
-              className="show-more-btn"
+              className="btn btn--secondary"
               onClick={handleShowMore}
               disabled={isLoading}
             >

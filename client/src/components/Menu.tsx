@@ -26,7 +26,7 @@ export default function Menu() {
           </NavLink>
         </li>
         <li className="nav__list-item">
-          <NavLink to="/signup" className="nav__link nav__link--button">
+          <NavLink to="/register" className="nav__link nav__link--button">
             Sign up
           </NavLink>
         </li>
