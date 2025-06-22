@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header-container container">
-        <h1 className="header__heading">
+        <h1 className="header__heading heading-1">
           Find the best movies to watch tonight
         </h1>
         <p className="header__description">

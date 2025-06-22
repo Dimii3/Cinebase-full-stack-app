@@ -606,6 +606,7 @@ app.post("/api/users/register", (req, res) => {
     username,
     email,
     password,
+    likedMovies: [],
   };
 
   users.push(newUser);
@@ -613,6 +614,53 @@ app.post("/api/users/register", (req, res) => {
   console.log("All users:", users);
 
   res.status(201).json({ message: "User registered successfully" });
+});
+
+app.post("/api/users/login", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+
+  const user = users.find((u) => u.email === email && u.password === password);
+
+  if (!user) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+
+  const { password: userPassword, ...userWithoutPassword } = user;
+
+  res.status(200).json({
+    message: "Login successful",
+    user: userWithoutPassword,
+  });
+});
+
+app.post("/api/users/:userId/toggle-like", (req, res) => {
+  const { userId } = req.params;
+  const { movieId } = req.body;
+
+  if (!movieId) {
+    return res.status(400).json({ message: "Movie ID is required" });
+  }
+
+  const user = users.find((u) => u.id === parseInt(userId, 10));
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const movieIndex = user.likedMovies.indexOf(movieId);
+
+  if (movieIndex > -1) {
+    user.likedMovies.splice(movieIndex, 1);
+  } else {
+    user.likedMovies.push(movieId);
+  }
+
+  console.log(`User ${user.username} liked movies:`, user.likedMovies);
+
+  res.status(200).json({ likedMovies: user.likedMovies });
 });
 
 app.get("/api/movies/:id", (req, res) => {

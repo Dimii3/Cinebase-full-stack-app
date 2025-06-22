@@ -5,22 +5,29 @@ import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import { SearchProvider } from "./contexts/SearchProvider";
 import MovieDetails from "./pages/MovieDetails";
-import Register from "./pages/Register";
+import RegisterPage from "./pages/RegisterPage";
 import { ToastContainer } from "react-toastify";
+import LoginPage from "./pages/LoginPage";
+import { AuthProvider } from "./contexts/AuthProvider";
+import LikedMoviesPage from "./pages/LikedMoviesPage";
 
 function App() {
   return (
     <>
-      <SearchProvider>
-        <Menu></Menu>
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/movie/:id" element={<MovieDetails />} />
-            <Route path="/register/" element={<Register />} />
-          </Routes>
-        </main>
-      </SearchProvider>
+      <AuthProvider>
+        <SearchProvider>
+          <Menu></Menu>
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/movie/:id" element={<MovieDetails />} />
+              <Route path="/register/" element={<RegisterPage />} />
+              <Route path="/login/" element={<LoginPage />} />
+              <Route path="/likedMovies/" element={<LikedMoviesPage />} />
+            </Routes>
+          </main>
+        </SearchProvider>
+      </AuthProvider>
       <ToastContainer aria-label="Notification" />
       <Footer></Footer>
     </>

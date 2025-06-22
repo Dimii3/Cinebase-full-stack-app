@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSearch } from "../contexts/SearchProvider";
-import { Link } from "react-router-dom";
+
 import MovieCardLoader from "./MovieCardLoader";
 import API_CONFIG from "../api/config";
+import MovieCard from "./MovieCard";
 
 const PAGE_SIZE = 12;
 
@@ -74,22 +75,7 @@ export default function MoviesList() {
         <>
           <ul className="movies-list">
             {movies.map((movie) => (
-              <li key={movie.id} className="movie-card">
-                <Link to={`/movie/${movie.id}`}>
-                  <img
-                    className="movie-card__image"
-                    src={movie.imageUrl}
-                    alt={movie.title}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null;
-                      target.src = "/image-placeholder.png";
-                    }}
-                  />
-                  <h2 className="movie-card__title">{movie.title}</h2>
-                  <p className="movie-card__rating">Rating: {movie.rating}</p>
-                </Link>
-              </li>
+              <MovieCard key={movie.id} movie={movie}></MovieCard>
             ))}
           </ul>
           {movies.length < total && (

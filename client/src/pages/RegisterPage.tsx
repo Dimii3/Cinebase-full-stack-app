@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
+import { showSuccessToast } from "../components/ToastMessage";
+import API_CONFIG from "../api/config";
 
 type Inputs = {
   username: string;
@@ -26,7 +28,7 @@ export default function Register() {
     const { confirmPassword, ...userData } = data;
 
     try {
-      const response = await fetch("http://localhost:3001/api/users/register", {
+      const response = await fetch(API_CONFIG.endpoints.user.register, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,28 +43,13 @@ export default function Register() {
       }
 
       console.log("Server response:", result);
-      toast.success("Registration successful!!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showSuccessToast("Registration successful! You can now log in.");
       reset();
     } catch (error) {
-      toast.error("Registration failed. Please try again.", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      console.error("Registration error:", error);
+      toast.error(
+        (error as Error).message || "An error occurred during registration."
+      );
     }
   };
 

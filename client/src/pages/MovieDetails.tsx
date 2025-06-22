@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API_CONFIG from "../api/config";
 import MovieCardLoader from "../components/MovieCardLoader";
+import { useAuth } from "../contexts/AuthProvider";
 
 interface MovieDetailsProps {
   id: string;
@@ -16,6 +17,7 @@ interface MovieDetailsProps {
 export default function MovieDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState<MovieDetailsProps | null>(null);
+  const { isAuthenticated, user, toggleLikeMovie } = useAuth();
 
   useEffect(() => {
     if (!id) return;
@@ -23,6 +25,15 @@ export default function MovieDetails() {
       .then((res) => res.json())
       .then(setMovie);
   }, [id]);
+
+  if (!movie) return <p>Movie not found.</p>;
+
+  const isLiked = user?.likedMovies.includes(Number(movie.id)) ?? false;
+
+  const handleLikeClick = () => {
+    toggleLikeMovie(Number(movie.id));
+  };
+
   return (
     <section className="container movie-details-container">
       <div className="movie-details">
@@ -49,6 +60,16 @@ export default function MovieDetails() {
               </p>
               <p className="movie-details__genre">Genre: {movie.genre}</p>
               <p className="movie-details__rating">Rating: {movie.rating}/10</p>
+              {isAuthenticated && (
+                <button
+                  className={`movie-details__btn btn ${
+                    isLiked ? "btn--secondary" : "btn--primary"
+                  }`}
+                  onClick={handleLikeClick}
+                >
+                  {isLiked ? "Unlike" : "Like"}
+                </button>
+              )}
             </div>
           </>
         )}

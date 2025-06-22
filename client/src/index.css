@@ -90,6 +90,7 @@ a {
 }
 
 .btn {
+  display: inline-block;
   border-radius: 0.4rem;
   padding: 1.2rem 3.2rem;
   font-family: inherit;
@@ -136,14 +137,13 @@ a {
 /* NAV  */
 
 .nav {
-  margin-top: 3.2rem;
-  padding: 1.6rem 2.4rem;
-  border-radius: 0.4rem;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
+  margin-top: 3.2rem;
+  padding: 1.6rem 2.4rem;
+  border-radius: 0.4rem;
   width: 100%;
-
   background-color: var(--color-gray);
   display: flex;
   align-items: center;
@@ -157,12 +157,6 @@ a {
   align-items: center;
   color: var(--color-white);
   font-size: 1.4rem;
-}
-
-.nav__list-item:last-child .nav__link {
-  padding: 1.2rem 3.2rem;
-  border-radius: 0.4rem;
-  background-color: var(--primary-color);
 }
 
 .nav__link.nav__link--active {
@@ -185,22 +179,25 @@ a {
   justify-content: center;
 }
 
-.header__heading {
+.heading-1 {
   font-size: 6.4rem;
   font-weight: 200;
   text-align: center;
   color: var(--color-white);
-  line-height: 0.9;
   letter-spacing: -2px;
+  line-height: 0.9;
+}
+
+.header__heading {
   max-width: 15ch;
 }
 
 .header__description {
+  margin: 3.2rem 0 4.8rem 0;
+  max-width: 45ch;
   font-size: 1.6rem;
   line-height: 1.6;
-  max-width: 45ch;
   text-align: center;
-  margin: 3.2rem 0 4.8rem 0;
 }
 
 .search-bar {
@@ -293,6 +290,11 @@ a {
   margin-bottom: 2.4rem;
 }
 
+.movie-details__btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
 /* FOOTER  */
 .footer {
   padding: 4.8rem 0;
@@ -368,4 +370,60 @@ a {
 
 .register-form__btn {
   align-self: center;
+}
+
+.register-form__error {
+  color: red;
+  font-size: 1.4rem;
+  margin-top: 1.2rem;
+}
+
+/* LIKED PAGES  */
+
+.liked-movies__description {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  text-align: center;
+  margin: 1.6rem 0 7.2rem 0;
+  max-width: 40ch;
+}
+
+.liked-movies-container {
+  padding: 24rem 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* RESPONSIVE MEDIA QUERIES  */
+
+@media screen and (max-width: 1200px) {
+  .movies-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nav {
+    border-radius: 0px;
+    margin-top: 0;
+  }
+
+  .header-container {
+    padding: 20rem 1.6rem 16rem 1.6rem;
+  }
+
+  .movies-list-container {
+    padding: 0 1.6rem 12rem 1.6rem;
+  }
+  .footer {
+    padding: 4.8rem 1.6rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .movies-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
