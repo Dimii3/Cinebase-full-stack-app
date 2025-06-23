@@ -8,6 +8,7 @@ interface Movie {
   id: number;
   title: string;
   poster: string;
+  imageUrl: string;
   description: string;
   rating: number;
 }
