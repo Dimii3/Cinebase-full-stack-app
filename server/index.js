@@ -663,6 +663,20 @@ app.post("/api/users/:userId/toggle-like", (req, res) => {
   res.status(200).json({ likedMovies: user.likedMovies });
 });
 
+app.post("/api/movies/liked", (req, res) => {
+  const { ids } = req.body;
+
+  if (!ids || !Array.isArray(ids)) {
+    return res
+      .status(400)
+      .json({ message: "An array of movie IDs is required." });
+  }
+
+  const likedMoviesData = movies.filter((movie) => ids.includes(movie.id));
+
+  res.status(200).json({ movies: likedMoviesData });
+});
+
 app.get("/api/movies/:id", (req, res) => {
   const movieId = parseInt(req.params.id, 10);
   const movie = movies.find((m) => m.id === movieId);
@@ -693,6 +707,7 @@ app.get("/api/movies", (req, res) => {
     total: filtered.length,
   });
 });
+
 app.listen(port, () => {
   console.log(`Cinebase server is running and listening on the port ${port}`);
 });

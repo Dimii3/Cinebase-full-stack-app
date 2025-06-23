@@ -14,38 +14,47 @@ interface Movie {
 
 export default function LikedMoviesPage() {
   const { user } = useAuth();
-  const [allMovies, setAllMovies] = useState<Movie[]>([]);
+
+  const [likedMovies, setLikedMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAllMovies = async () => {
+    const fetchLikedMovies = async () => {
+      if (!user || user.likedMovies.length === 0) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        const response = await fetch(API_CONFIG.endpoints.movies);
+        const response = await fetch(API_CONFIG.endpoints.likedMovies, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ids: user.likedMovies }),
+        });
+
         const data = await response.json();
         if (response.ok) {
-          setAllMovies(data.movies);
+          setLikedMovies(data.movies);
         } else {
-          throw new Error(data.message || "Failed to fetch movies");
+          throw new Error(data.message || "Failed to fetch liked movies");
         }
       } catch (error) {
-        console.error("Error fetching movies:", error);
+        console.error("Error fetching liked movies:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchAllMovies();
-  }, []);
-
-  const likedMovies = allMovies.filter((movie) =>
-    user?.likedMovies.includes(movie.id)
-  );
+    fetchLikedMovies();
+  }, [user]);
 
   const renderContent = () => {
     if (isLoading) {
-      return Array.from({ length: 4 }).map((_, index) => (
-        <MovieCardLoader key={index} />
-      ));
+      return Array.from({ length: user?.likedMovies.length || 4 }).map(
+        (_, index) => <MovieCardLoader key={index} />
+      );
     }
 
     if (likedMovies.length === 0) {
