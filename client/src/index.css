@@ -90,7 +90,7 @@ a {
 }
 
 main {
-  background-image: url("bg-header.png");
+  background-image: url("/bg-header.png");
   background-repeat: no-repeat;
 }
 
