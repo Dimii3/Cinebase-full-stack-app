@@ -448,7 +448,8 @@ main {
     flex-direction: column;
   }
 
-  .movie-details__image {
+  .movie-details__image,
+  .movie-card-loader {
     width: 70%;
   }
 
@@ -522,7 +523,8 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .movie-details__image {
+  .movie-details__image,
+  .movie-card-loader {
     width: 100%;
   }
   .search-bar {

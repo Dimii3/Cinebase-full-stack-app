@@ -10,12 +10,14 @@ import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./contexts/AuthProvider";
 import LikedMoviesPage from "./pages/LikedMoviesPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <>
       <AuthProvider>
         <SearchProvider>
+          <ScrollToTop />
           <Menu></Menu>
           <main>
             <Routes>
