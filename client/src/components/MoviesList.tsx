@@ -32,7 +32,7 @@ export default function MoviesList() {
       setError(null);
       try {
         const params = new URLSearchParams();
-        if (search.trim().length > 0) params.append("title", search.trim());
+        if (search.trim().length > 0) params.append("q", search.trim());
         params.append("limit", PAGE_SIZE.toString());
         params.append("offset", offset.toString());
 
