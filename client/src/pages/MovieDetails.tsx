@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API_CONFIG from "../api/config";
-import MovieCardLoader from "../components/MovieCardLoader";
+
 import { useAuth } from "../contexts/AuthProvider";
+import MovieDetailsLoader from "../components/MovieDetailsLoader";
 
 interface MovieDetailsProps {
   id: number;
@@ -42,7 +43,7 @@ export default function MovieDetails() {
     <section className="container movie-details-container">
       <div className="movie-details">
         {!movie ? (
-          <MovieCardLoader />
+          <MovieDetailsLoader></MovieDetailsLoader>
         ) : (
           <>
             <img

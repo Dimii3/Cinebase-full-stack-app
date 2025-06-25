@@ -90,6 +90,10 @@ a {
 }
 
 main {
+  position: relative;
+
+  margin: 0 auto;
+  max-width: 192rem;
   background-image: url("/bg-header.png");
   background-repeat: no-repeat;
 }
@@ -302,6 +306,42 @@ main {
 .movie-details__btn {
   align-self: flex-start;
   margin-top: auto;
+}
+
+/* MOVIE DETAILS LOADER  */
+
+.details-loader {
+  width: 100%;
+}
+
+.details-loader__title {
+  width: 30%;
+  height: 3.2rem;
+}
+
+.details-loader__description {
+  margin: 3.2rem 0;
+  width: 50%;
+  height: 9.6rem;
+}
+
+.details-loader__rating {
+  width: 40%;
+  height: 3.2rem;
+}
+
+.details-loader__title,
+.details-loader__description,
+.details-loader__rating {
+  background: linear-gradient(
+    -10deg,
+    var(--color-gray) 0%,
+    var(--color-black) 50%,
+    var(--color-gray) 100%
+  );
+  border-radius: 0.4rem;
+  background-size: 100% 200%;
+  animation: loading 3s infinite;
 }
 
 /* FOOTER  */
