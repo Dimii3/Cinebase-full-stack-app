@@ -12,14 +12,17 @@ export default function MovieCard({
           className="movie-card__image"
           src={movie.imageUrl}
           alt={movie.title}
+          loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.onerror = null;
             target.src = "/image-placeholder.png";
           }}
         />
-        <h2 className="movie-card__title">{movie.title}</h2>
-        <p className="movie-card__rating">Rating: {movie.rating}</p>
+        <div className="movie-card__info">
+          <h2 className="movie-card__title">{movie.title}</h2>
+          <p className="movie-card__rating">Rating: {movie.rating}</p>
+        </div>
       </Link>
     </li>
   );

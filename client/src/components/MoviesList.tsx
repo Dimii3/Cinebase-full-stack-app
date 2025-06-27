@@ -27,6 +27,8 @@ export default function MoviesList() {
   }, [search]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchMovies = async () => {
       setIsLoading(true);
       setError(null);
@@ -37,7 +39,8 @@ export default function MoviesList() {
         params.append("offset", offset.toString());
 
         const url = `${API_CONFIG.baseURL}/movies?${params.toString()}`;
-        const response = await fetch(url);
+
+        const response = await fetch(url, { signal: controller.signal });
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setMovies(
@@ -45,6 +48,10 @@ export default function MoviesList() {
         );
         setTotal(data.total);
       } catch (error) {
+        if ((error as Error).name === "AbortError") {
+          console.log("Fetch aborted");
+          return;
+        }
         setError("Failed to load movies. Try again later.");
         setMovies([]);
       } finally {
@@ -53,6 +60,10 @@ export default function MoviesList() {
     };
 
     fetchMovies();
+
+    return () => {
+      controller.abort();
+    };
   }, [search, offset]);
 
   const handleShowMore = () => setOffset((prev) => prev + PAGE_SIZE);

@@ -6,32 +6,30 @@ export default function SearchBar() {
   const { setSearch } = useSearch();
 
   useEffect(() => {
-    if (value.includes("<") || value.includes(">")) {
-      setValue(value.replace(/<[^>]*>/g, ""));
-      return;
-    }
-
+    if (value.includes("<") || value.includes(">")) return;
     if (typeof value !== "string") return;
 
     const handler = setTimeout(() => {
-      setSearch(value.trim());
+      setSearch(value);
     }, 400);
 
     return () => clearTimeout(handler);
   }, [value, setSearch]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+  };
+
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="search-bar">
+    <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
       <input
         className="search-bar__input input"
         type="text"
         placeholder="Search Movie..."
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
       />
-      <button className="search-bar__btn" type="submit">
-        Search
-      </button>
     </form>
   );
 }

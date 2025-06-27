@@ -1,38 +1,41 @@
 import { Routes, Route } from "react-router-dom";
-
-import Home from "./pages/Home";
-import Footer from "./components/Footer";
-import Menu from "./components/Menu";
-import { SearchProvider } from "./contexts/SearchProvider";
-import MovieDetails from "./pages/MovieDetails";
-import RegisterPage from "./pages/RegisterPage";
-import { ToastContainer } from "react-toastify";
-import LoginPage from "./pages/LoginPage";
+import { Suspense, lazy } from "react";
 import { AuthProvider } from "./contexts/AuthProvider";
-import LikedMoviesPage from "./pages/LikedMoviesPage";
+import { SearchProvider } from "./contexts/SearchProvider";
+import { ToastContainer } from "react-toastify";
 import ScrollToTop from "./components/ScrollToTop";
+import MainLayout from "./components/MainLayout";
+import PrivateRoute from "./components/PrivateRoute";
+import Preloader from "./components/Preloader";
+
+const Home = lazy(() => import("./pages/Home"));
+const MovieDetails = lazy(() => import("./pages/MovieDetails"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const LikedMoviesPage = lazy(() => import("./pages/LikedMoviesPage"));
 
 function App() {
   return (
-    <>
-      <AuthProvider>
-        <SearchProvider>
-          <ScrollToTop />
-          <Menu></Menu>
-          <main>
-            <Routes>
+    <AuthProvider>
+      <SearchProvider>
+        <ScrollToTop />
+        <Suspense fallback={<Preloader />}>
+          <Routes>
+            <Route element={<MainLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/movie/:id" element={<MovieDetails />} />
-              <Route path="/register/" element={<RegisterPage />} />
-              <Route path="/login/" element={<LoginPage />} />
-              <Route path="/likedMovies/" element={<LikedMoviesPage />} />
-            </Routes>
-          </main>
-        </SearchProvider>
-      </AuthProvider>
-      <ToastContainer aria-label="Notification" />
-      <Footer></Footer>
-    </>
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+
+              <Route element={<PrivateRoute />}>
+                <Route path="/likedMovies" element={<LikedMoviesPage />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Suspense>
+        <ToastContainer aria-label="Notification" />
+      </SearchProvider>
+    </AuthProvider>
   );
 }
 
